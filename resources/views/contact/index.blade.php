@@ -37,7 +37,7 @@
                             class="w-full p-4 text-xs leading-none bg-blueGray-50 rounded outline-none border"
                             type="text" placeholder="例）田中太郎" name="name" value="{{ old('name') }}">
                         @if ($errors->has('name'))
-                            <p class="text-red-400">名前のエラー</p>
+                            <p class="text-red-400">{{ $errors->first('name') }}</p>
                         @endif
                     </div>
                     <div class="mb-4">
