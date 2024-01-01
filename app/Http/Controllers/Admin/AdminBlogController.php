@@ -12,9 +12,8 @@ use App\Http\Requests\Admin\StoreBlogRequest;
 
 class AdminBlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    //ブログ一覧画面
     public function index()
     {
         //
@@ -23,9 +22,7 @@ class AdminBlogController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // ブログ投稿画面
     public function create()
     {
         return view('admin.blogs.create');
@@ -34,7 +31,7 @@ class AdminBlogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    //ブログ投稿機能
+    // ブログ投稿機能
     public function store(StoreBlogRequest $request)
 {
     $savedImagePath = $request->file('image')->store('blogs','public');
