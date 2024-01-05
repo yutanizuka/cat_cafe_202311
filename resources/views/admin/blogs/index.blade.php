@@ -26,7 +26,7 @@
                             <tr @class(['text-sm', 'bg-gray-50' => $loop->odd])>
                                 <td class="flex px-4 py-3 items-center">
                                     <img class="w-12 h-12 mr-4 object-cover rounded-md"
-                                        src="{{ asset('/storage/' . $blog->image) }}" alt="">
+                                        src="{{ asset('storage/' . $blog->image) }}" alt="Blog">
                                     <p class="font-medium"><a
                                             href="{{ route('admin.blogs.edit', ['blog' => $blog->id]) }}">{{ $blog->title }}</a>
                                     </p>

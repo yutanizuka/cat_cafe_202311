@@ -26,3 +26,4 @@ Route::get('/admin/blogs',[\App\Http\Controllers\Admin\AdminBlogController::clas
 Route::get('/admin/blogs/create',[\App\Http\Controllers\Admin\AdminBlogController::class,'create'])->name('admin.blogs.create');
 Route::post('/admin/blogs',[\App\Http\Controllers\Admin\AdminBlogController::class,'store'])->name('admin.blogs.store');
 Route::get('/admin/blogs/{blog}',[\App\Http\Controllers\Admin\AdminBlogController::class,'edit'])->name('admin.blogs.edit');
+Route::put('/admin/blogs/{blog}',[\App\Http\Controllers\Admin\AdminBlogController::class,'update'])->name('admin.blogs.update');
