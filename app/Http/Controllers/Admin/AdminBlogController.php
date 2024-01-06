@@ -52,10 +52,10 @@ class AdminBlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Blog $blog)
     {
         ////
-        $blog = Blog::findOrFail($id);
+        // $blog = Blog::findOrFail($id);
         return view('admin.blogs.edit', ['blog' => $blog]);
 
     }
