@@ -56,11 +56,12 @@
                             <div class="flex">
                                 <select id="category"
                                     class="appearance-none block pl-4 pr-8 py-3 mb-2 text-sm bg-white border rounded"
-                                    name="">
-                                    <option>Option 1</option>
-                                    <option>Option 2</option>
-                                    <option>Option 3</option>
-                                    <option>Option 4</option>
+                                    name="category_id">
+                                    <option value="">選択してください</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}"
+                                            @if ($category->id == old('category_id', $blog->category->id)) selected @endif>{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
                                 <div
                                     class="pointer-events-none transform -translate-x-full flex items-center px-2 text-gray-500">
@@ -76,7 +77,7 @@
 
                         <div class="mb-6">
                             <label class="block text-sm font-medium mb-2">登場するねこ</label>
-                            <select id="js-pulldown" class="mr-6 w-full" name="" multiple>
+                            <select id="js-pulldown" class="mr-6 w-full" name="cats[]" multiple>
                                 <option selected>Option 1</option>
                                 <option>Option 2</option>
                                 <option selected>Option 3</option>
