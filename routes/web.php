@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,3 +29,14 @@ Route::post('/admin/blogs',[\App\Http\Controllers\Admin\AdminBlogController::cla
 Route::get('/admin/blogs/{blog}',[\App\Http\Controllers\Admin\AdminBlogController::class,'edit'])->name('admin.blogs.edit');
 Route::put('/admin/blogs/{blog}',[\App\Http\Controllers\Admin\AdminBlogController::class,'update'])->name('admin.blogs.update');
 Route::delete('/admin/blogs/{blog}',[\App\Http\Controllers\Admin\AdminBlogController::class,'destroy'])->name('admin.blogs.destroy');
+
+
+//user　management
+Route::get('/admin/users/create',[UserController::class,'create'])->name('admin.users.create');
+Route::post('/admin/users',[UserController::class,'store'])->name('admin.users.store');
+
+
+//Auth
+
+Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AuthController::class, 'login']);

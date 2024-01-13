@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Blog;
+use App\Models\Cat;
 use App\Http\Requests\Admin\StoreBlogRequest;
 use App\Http\Requests\Admin\UpdateBlogRequest;
+use Illuminate\support\Facades\Auth;
 use App\Models\Category;
 
 class AdminBlogController extends Controller
@@ -17,8 +19,9 @@ class AdminBlogController extends Controller
     public function index()
     {
         //
+        $user = Auth::user();
         $blogs = Blog::latest('updated_at')->paginate(10);
-        return view('admin.blogs.index',['blogs' => $blogs] );
+        return view('admin.blogs.index',['blogs' => $blogs, 'user' => $user] );
 
     }
 
@@ -58,7 +61,12 @@ class AdminBlogController extends Controller
         ////
         // $blog = Blog::findOrFail($id);
         $categories = Category::all();
-        return view('admin.blogs.edit', ['blog' => $blog, 'categories' => $categories]);
+        $cats =  Cat::all();
+        return view('admin.blogs.edit',[
+            'blog'       => $blog,
+            'categories' => $categories,
+            'cats'       => $cats
+        ]);
 
     }
 
@@ -81,12 +89,12 @@ class AdminBlogController extends Controller
         }
         $blog->category()->associate($updateData['category_id']);
         if ($blog->update($updateData)) {
+            $blog->cats()->sync($updateData['cats'] ?? []) ;
             return redirect()->route('admin.blogs.index')->with('success','ブログを更新しました');
         } else {
             // 更新に失敗した場合の処理をここに書く
             return redirect()->back()->withInput()->withErrors('ブログの更新に失敗しました');
         }
-
     }
 
     /**

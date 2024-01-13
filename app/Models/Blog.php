@@ -18,6 +18,6 @@ class Blog extends Model
 
     public function cats()
     {
-        return $this->belongsToMany(Cat::class);
+        return $this->belongsToMany(Cat::class)->withTimestamps();
     }
 }
