@@ -23,7 +23,7 @@ Route::post('/contact',[\App\Http\Controllers\ContactController::class,'sendmail
 Route::get('/contact/complete',[\App\Http\Controllers\ContactController::class,'complete'])->name('contact.complete');
 
 //ブログ
-Route::get('/admin/blogs',[\App\Http\Controllers\Admin\AdminBlogController::class,'index'])->name('admin.blogs.index');
+Route::get('/admin/blogs',[\App\Http\Controllers\Admin\AdminBlogController::class,'index'])->name('admin.blogs.index')->middleware('auth');
 Route::get('/admin/blogs/create',[\App\Http\Controllers\Admin\AdminBlogController::class,'create'])->name('admin.blogs.create');
 Route::post('/admin/blogs',[\App\Http\Controllers\Admin\AdminBlogController::class,'store'])->name('admin.blogs.store');
 Route::get('/admin/blogs/{blog}',[\App\Http\Controllers\Admin\AdminBlogController::class,'edit'])->name('admin.blogs.edit');
@@ -38,5 +38,6 @@ Route::post('/admin/users',[UserController::class,'store'])->name('admin.users.s
 
 //Auth
 
-Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login')->middleware('guest');
 Route::post('/admin/login', [AuthController::class, 'login']);
+Route::post('/admin/logout', [AuthController::class,'logout'])->name('admin.logout');
