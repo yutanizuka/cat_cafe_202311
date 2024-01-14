@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\AdminBlogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,22 +23,31 @@ Route::get('/contact',[\App\Http\Controllers\ContactController::class,'index'])-
 Route::post('/contact',[\App\Http\Controllers\ContactController::class,'sendmail']);
 Route::get('/contact/complete',[\App\Http\Controllers\ContactController::class,'complete'])->name('contact.complete');
 
+// management window
+Route::prefix('/admin')
+->name('admin.')
+->group(function() {
+    // ログイン時のみアクセス可能なルート
+    Route::middleware('auth')
+    ->group(function (){
 //ブログ
-Route::get('/admin/blogs',[\App\Http\Controllers\Admin\AdminBlogController::class,'index'])->name('admin.blogs.index')->middleware('auth');
-Route::get('/admin/blogs/create',[\App\Http\Controllers\Admin\AdminBlogController::class,'create'])->name('admin.blogs.create');
-Route::post('/admin/blogs',[\App\Http\Controllers\Admin\AdminBlogController::class,'store'])->name('admin.blogs.store');
-Route::get('/admin/blogs/{blog}',[\App\Http\Controllers\Admin\AdminBlogController::class,'edit'])->name('admin.blogs.edit');
-Route::put('/admin/blogs/{blog}',[\App\Http\Controllers\Admin\AdminBlogController::class,'update'])->name('admin.blogs.update');
-Route::delete('/admin/blogs/{blog}',[\App\Http\Controllers\Admin\AdminBlogController::class,'destroy'])->name('admin.blogs.destroy');
-
-
+        Route::resource('/blogs', AdminBlogController::class)->except('show');
 //user　management
-Route::get('/admin/users/create',[UserController::class,'create'])->name('admin.users.create');
-Route::post('/admin/users',[UserController::class,'store'])->name('admin.users.store');
+        Route::get('/users/create',[UserController::class,'create'])->name('users.create');
+        Route::post('/users',[UserController::class,'store'])->name('users.store');
+        Route::post('/logout', [AuthController::class,'logout'])->name('logout');
+
+        });
+
+        //未ログイン時のみアクセス可能なルート
+        Route::middleware('guest')
+            ->group(function(){
+                //Auth
+                Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('login');
+                Route::post('/admin/login', [AuthController::class, 'login']);
+
+            });
+    });
 
 
-//Auth
 
-Route::get('/admin/login', [AuthController::class, 'showLoginForm'])->name('admin.login')->middleware('guest');
-Route::post('/admin/login', [AuthController::class, 'login']);
-Route::post('/admin/logout', [AuthController::class,'logout'])->name('admin.logout');
